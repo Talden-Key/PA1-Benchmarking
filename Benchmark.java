@@ -1,7 +1,12 @@
+/*
+Name: Tay Ho
+CptS 233: PA #1 -Benchmarking a LinkedList
+Date: 09/18/20
+gitRepo url:https://github.com/Talden-Key/PA1-Benchmarking.git
+*/
 import java.util.*;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
@@ -10,8 +15,8 @@ public class Benchmark{
     public static LinkedList<Integer> list;
     public static int num;
     // Min, Max, Median data
-    public static int MaximumNumber;
-    public static int MinimunNumber;
+    public static int MaximumNumber = 0;
+    public static int MinimunNumber = 10000000;
     public static int MedianNubmer;
     // Time to complete each task
     public static long startTime;
@@ -53,10 +58,11 @@ public static void main(final String[] args) {
         
     // if the head is empty than add
     if (list.peek() == null || list.peek() >= num ) {
+        // add first null so the linkedlist isn't empty
         if(list.peek() == null){
             list.add(null);
         }
-    list.addFirst(num);
+        list.addFirst(num);
     }else {
         // tranverse through the list and compare with each element
         int position = 0;
@@ -70,13 +76,14 @@ public static void main(final String[] args) {
             } else if (num <= list.get(position+1)){
                 list.add(position+1, num);
                 position = list.size()-1;
+            // else continue to compare with the next node in the list
             }else {
                  position++;
             }
         }
     }
     }
-    // end Record and find task time.
+    // end Record and find task time for sorted insert.
     endTime = System.currentTimeMillis();
     insertTask = endTime - startTime;
 
@@ -100,12 +107,13 @@ public static void main(final String[] args) {
     findMedianTask = endTime - startTime;
 
 
-    // Record time to find Max
+    // Record time to find Min
     startTime = System.currentTimeMillis();
-    int min = 100000000;
+    
     num = 0;
+    // Traverse throught the list and compare with all the number to find Min
     while(list.get(num) != null){
-        if ( list.get(num) < min) {
+        if ( list.get(num) < MinimunNumber) {
             MinimunNumber = list.get(num);
         }
         num++;
@@ -115,12 +123,12 @@ public static void main(final String[] args) {
     findMinTask = endTime - startTime;
 
 
-    // Record time to find Min
+    // Record time to find Max
     startTime = System.currentTimeMillis();
-    int max = 100000000;
     num=0;
+    // Traverse throught the list and compare with all the number to find Max
     while(list.get(num) != null){
-        if ( list.get(num) < min) {
+        if ( list.get(num) > MaximumNumber) {
             MaximumNumber = list.get(num);
         }
         num++;
