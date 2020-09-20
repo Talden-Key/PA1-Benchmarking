@@ -6,11 +6,20 @@ import java.io.FileReader;
 import java.io.IOException;
 
 public class Benchmark{
+    // Create a linkedlist
+    public static LinkedList<Integer> list;
+    public static int num;
+    // Min, Max, Median data
     public static int MaximumNumber;
     public static int MinimunNumber;
     public static int MedianNubmer;
-    public static LinkedList<Integer> list;
-    public static int num;
+    // Time to complete each task
+    public static long startTime;
+    public static long endTime;
+    public static long insertTask;
+    public static long findMaxTask;
+    public static long findMinTask;
+    public static long findMedianTask;
 
 public static void main(final String[] args) {
     File file = null;
@@ -25,7 +34,6 @@ public static void main(final String[] args) {
         System.out.println("Enter the name of the file");
         file  = new File(scan.next());
         System.exit(0);
-
     }
 
     // Read the file
@@ -35,22 +43,20 @@ public static void main(final String[] args) {
         System.out.println("Please restart the program and try again");
     }
     
+    // Record time for insert task.
+    startTime = System.currentTimeMillis();
     // Create a LinkedList
     list = new LinkedList<>();
-  
     // Read all the number in file
     while (scan.hasNextInt()) {
         Integer num = scan.nextInt();
         
-        //find min 
-        MinimunNumber = findMin(num);
-        //find max
-        MaximumNumber = findMax(num);
-    
     // if the head is empty than add
     if (list.peek() == null || list.peek() >= num ) {
-    list.add(num);
-    list.add(null);
+        if(list.peek() == null){
+            list.add(null);
+        }
+    list.addFirst(num);
     }else {
         // tranverse through the list and compare with each element
         int position = 0;
@@ -70,54 +76,72 @@ public static void main(final String[] args) {
         }
     }
     }
+    // end Record and find task time.
+    endTime = System.currentTimeMillis();
+    insertTask = endTime - startTime;
+
+
+    // record time for finding Median
+    startTime = System.currentTimeMillis();
+    // declare variable to help find Median
     int size = list.size()-1;
     int leftMidIndex = list.get(size/2);
     int rightMidIndes = list.get(size/2 +1);
     int median;
+    // If the linkedlist size is odd then the middle number is median.
     if (size%2 == 0) {
         median = (leftMidIndex + rightMidIndes)/2;
     }else {
         median = list.get(size/2);
     }
     MedianNubmer = median;
-    System.out.println(list);
-    System.out.println(MinimunNumber);
-    System.out.println(MaximumNumber);
-    System.out.println(MedianNubmer);
-    
-    
-}
+    // end Record and find task time.
+    endTime = System.currentTimeMillis();
+    findMedianTask = endTime - startTime;
 
-/*  add number from file to LinkedList in sorted order
-public static void addToLinkedList( Integer num) {
-}*/
 
-// Find Min value
-public static int findMin(int num) {
+    // Record time to find Max
+    startTime = System.currentTimeMillis();
     int min = 100000000;
-    if ( num < min) {
-        min = num;
+    num = 0;
+    while(list.get(num) != null){
+        if ( list.get(num) < min) {
+            MinimunNumber = list.get(num);
+        }
+        num++;
     }
-return min;
-}
-// Find Max value
-public static int findMax(int num) {
-    int max =0;
-    if (num > max) {
-        max = num;
-    }
-    return max;
-}
+    //Calculate the time
+    endTime = System.currentTimeMillis();
+    findMinTask = endTime - startTime;
 
-// Find Median Value
-// =====> median <======
-public static int findMedian(LinkedList list) {
+
+    // Record time to find Min
+    startTime = System.currentTimeMillis();
+    int max = 100000000;
+    num=0;
+    while(list.get(num) != null){
+        if ( list.get(num) < min) {
+            MaximumNumber = list.get(num);
+        }
+        num++;
+    }
+    //Calculate time.
+    endTime = System.currentTimeMillis();
+    findMaxTask = endTime - startTime;
+
+    // print out
+    System.out.println(list);
+    System.out.println("The smallest number is " + MinimunNumber);
+    System.out.println("The biggest number is " + MaximumNumber);
+    System.out.println(" The Median number is " + MedianNubmer);
+    System.out.println("The time it took to insert all the number is " + insertTask);
+    System.out.println("The time it took to find Max is " + findMaxTask);
+    System.out.println("The time it took to find Min is " + findMinTask);
+    System.out.println("The time it took to find Median is " + findMedianTask);
+    System.out.println("All the time is in Milisecond");
+
     
-    return 0;
+    
 }
-
-//Find the time  it take to insert, min , max, median.
-
-
 
 }
